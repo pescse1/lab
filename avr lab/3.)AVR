@@ -1,0 +1,65 @@
+3.) Write ALP program to check whether the given number is power of 2 or not.
+.org 0 
+ldi r16,128  
+ldi r19,0 
+ldi r17,0x08 
+clc
+top: lsr r16  
+brcc l1 
+inc r19 
+l1:  dec r17 
+brne top  
+here:rjmp here 
+or 
+.org 0
+ldi r16,128
+ldi r17,16
+subi r17,1
+and r17,r16
+here:jmp here
+
+O/P:-
+🔍 5. View the Output
+Option A: Registers Window
+Debug ▸ Windows ▸ Registers
+
+Look at R19 → it should contain 0x01
+(Only one 1 bit in binary 10000000)
+
+Option B: Memory Window
+Debug ▸ Windows ▸ Memory ▸ Memory1
+
+Type address 0x0300
+
+You'll see 01 in that address — the value of result
+
+Option C: Watch Window
+Open Watch1 (Alt + F9, then press W)
+
+Add: *(uint8_t*)0x0300
+
+🧠 Quick Explanation
+Input:
+R16 = 10000000 (128 decimal)
+
+Each shift:
+mathematica
+Copy
+Edit
+1st shift → C=0, r16=01000000
+2nd       → C=0, r16=00100000
+3rd       → C=0, r16=00010000
+4th       → C=0, r16=00001000
+5th       → C=0, r16=00000100
+6th       → C=0, r16=00000010
+7th       → C=0, r16=00000001
+8th       → C=1, r16=00000000 → r19++
+Final:
+R19 = 1 → because only 1 bit was 1 in the input
+
+✅ Summary of What to Check
+Item	Should Show
+R19	0x01
+Memory @ 0x0300	01
+R16 after 8 shifts	00
+R17	00 (fully counted down)
