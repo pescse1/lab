@@ -1,0 +1,152 @@
+1.)bubblesort
+include <stdio.h>
+#include <omp.h>
+#include <stdlib.h>
+#define ARRAY_SIZE 25
+void bubble_sort(int arr[],int n)
+{for (int i=0;i<n-1;++i){
+for(intj=0;j<n-i-1;++j){
+if (arr[j] > arr[j + 1]){
+int temp = arr[j];
+arr[j] = arr[j + 1];
+arr[j + 1] = temp;}}}}
+int main(){
+int arr[ARRAY_SIZE];
+#pragma omp parallel for
+for (int i=0;i<ARRAY_SIZE;++i)
+{arr[i] = rand() % 100;}
+printf("\nThe array elements are:\n");
+for (int i = 0; i < ARRAY_SIZE; i++)
+{printf("%d  ", arr[i]);}
+#pragma omp parallel shared(arr)
+{bubble_sort(arr, ARRAY_SIZE);}
+printf("\nSorted array:\n");
+for (int i = 0;i<ARRAY_SIZE; ++i){
+printf("%d", arr[i]);}
+printf("\n"); return 0;}
+
+2.)binarysearch
+#include <stdio.h>
+#include <omp.h>
+#define ARRAY_SIZE 100
+#define TARGET 42
+int binary_search(int arr[],
+intleft,int right,int target)
+{while (left <= right){
+int mid =left+(right-left)/2;
+if(arr[mid]==target)
+return mid;
+if(arr[mid]<target)
+left=mid+1;
+else
+right=mid-1;}
+return -1;}
+int main(){
+int arr[ARRAY_SIZE];
+int i, result = -1;
+for (i=0;i<ARRAY_SIZE;++i){
+arr[i] = i;}
+#pragma omp parallel shared(arr, result)
+{int tid = omp_get_thread_num();
+int num_threads = omp_get_num_threads();
+int chunk_size = ARRAY_SIZE / num_threads;
+int left = tid * chunk_size;
+int right = (tid == num_threads - 1)
+?ARRAY_SIZE - 1
+: (tid + 1) * chunk_size - 1;
+int local_result = binary_search(arr, left, right, TARGET);
+#pragma omp critical{
+if(local_result != -1 && result == -1)
+{result = local_result;}}}
+
+3.)add,sub
+#include <omp.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define N 10
+int main(int argc, char*argv[])
+{int i, nthreads, tid;
+float a[N], b[N], c[N], d[N];
+for (i = 0; i < N; i++){
+a[i] = i-1.5;
+b[i] = i + 22.35;
+c[i] = 0.0;
+d[i] = 0.0;}
+#pragma omp parallel shared(a, b, c, d,nthreads) 
+private(i, tid){
+tid =omp_get_thread_num();
+if(tid==0){
+nthreads=omp_get_num_threads();
+printf("Number of threads = %d\n",nthreads);}
+printf("Thread %d starting...\n", tid);
+#pragma omp sections nowait{
+#pragma omp section{
+printf("Thread %d doing section 1\n", tid);
+for (i = 0; i < N; i++){
+c[i] = a[i] + b[i];
+printf("Thread %d: c[%d] = %f\n", tid, i, c[i]);
+}}#pragma omp section
+{printf("Thread %d doing section 2\n", tid);
+for (i = 0; i < N; i++)
+{d[i] = a[i]*b[i];
+printf("Thread %d: d[%d] = %f\n",tid,i,d[i]);}}
+
+4.)reduction clause
+include <omp.h>
+#include <stdio.h>
+#include <stdlib.h>
+int main(int argc, char *argv[])
+{int i, n;
+float a[1000], b[1000], sum;
+n=1000;
+for (i=0;i<n;i++){
+a[i] =i*1.0;
+b[i] =i*1.0;}
+sum = 0.0;
+#pragma omp parallel for reduction(+:sum)
+for (i=0;i<n;i++){
+sum=sum+(a[i]*b[i]);}
+printf("Sum = %f\n", sum);
+return 0;}
+
+5.)matrix
+include <omp.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define NRA 10 
+#define NCA 8 
+#define NCB 7 
+int main (int argc, char *argv[]){
+int tid, nthreads, i, j, k, chunk;
+double a[NRA][NCA],
+b[NCA][NCB],
+c[NRA][NCB];
+chunk = 10;
+#pragma omp parallel shared
+(a,b,c,nthreads,chunk) private(tid,i,j,k) {
+tid = omp_get_thread_num();
+if (tid == 0){
+nthreads = omp_get_num_threads();
+printf("Starting matrix multiple 
+example with %d threads\n",nthreads);
+printf("Initializing matrices...\n");}
+#pragma omp for schedule (static, chunk) 
+for (i=0; i<NRA; i++)
+for (j=0; j<NCA; j++)
+a[i][j]= i+j;
+#pragma omp for schedule (static, chunk) 
+for (i=0; i<NCA; i++)
+for (j=0; j<NCB; j++)
+b[i][j]= i*j;
+#pragma omp for schedule (static, chunk) 
+for (i=0; i<NRA; i++)
+for (j=0; j<NCB; j++)
+c[i][j]= 0;
+printf("Thread %d starting matrix multiply...\n",tid);
+#pragma omp for schedule (static, chunk) 
+for (i=0; i<NRA; i++){
+printf("Thread=%d did row=%d\n",tid,i);
+for(j=0; j<NCB; j++)
+for (k=0; k<NCA; k++)
+c[i][j] += a[i][k] * b[k][j];}
+    
