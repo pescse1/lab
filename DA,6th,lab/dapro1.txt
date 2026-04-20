@@ -1,0 +1,48 @@
+1.)Demonstrate theNegative (–ve) andPositive (+ve) Correlationbetween two
+attributesofWomendataset&mtcarsdataset
+
+
+data(women) 
+women 
+x <- women$height 
+y <- women$weight 
+cor(x,y) 
+plot(x, y, 
+main = "Height vs Weight", 
+xlab = "Height", 
+ylab = "Weight", 
+pch = 19, 
+frame = FALSE) 
+abline(lm(y~x), col="red") 
+x <- c(1,2,3,4,5,6,7,8) 
+y <- c(16,14,12,10,8,6,4,2) 
+cor(x,y) 
+plot(x, y, 
+main = "Negative Correlation", 
+xlab = "X axis", 
+ylab = "Y axis", 
+pch = 19, 
+frame = FALSE) 
+abline(lm(y~x), col="blue") 
+data(mtcars) 
+mtcars 
+x <- mtcars$disp 
+y <- mtcars$hp 
+cor(x,y) 
+plot(x, y, 
+main = "Positive Correlation (disp vs hp)", 
+xlab = "Displacement", 
+ylab = "Horsepower", 
+pch = 19, 
+frame = FALSE) 
+abline(lm(y~x), col="red") 
+x <- mtcars$wt 
+y <- mtcars$mpg 
+cor(x,y) 
+plot(x, y, 
+main = "Negative Correlation (wt vs mpg)", 
+xlab = "Weight", 
+ylab = "Mileage (mpg)", 
+pch = 19, 
+frame = FALSE) 
+abline(lm(y~x), col="blue") 
