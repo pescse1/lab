@@ -45,4 +45,32 @@ xlab = "Weight",
 ylab = "Mileage (mpg)", 
 pch = 19, 
 frame = FALSE) 
+
+
+
+
+
+1.)+ve
+print(women)
+x <- women$height
+y <- women$weight
+mean(x)
+mean(y)
+cov(x, y)
+cor(x, y)
+print(cor(x, y, method = "pearson"))
+plot(x, y, main = "Height vs Weight", xlab = "Height", 
+ylab = "Weight", pch = 03, frame = FALSE)
+
+1.)-ne
+print(mtcars)
+x <- mtcars$wt
+y <- mtcars$mpg
+mean(x)
+mean(y)
+cov(x, y)
+cor(x, y)
+print(cor(x, y, method = "pearson"))
+plot(x, y, main = "weight vs mpg", xlab = "weight", 
+ylab = "mpg", pch = 18, frame = FALSE)
 abline(lm(y~x), col="blue") 
