@@ -1,0 +1,65 @@
+1) PC0-->IP-->192.168.10.1-->subnet mask-->right click-->default gateway-->192.168.10.3
+   PC1-->IP-->192.168.10.2-->subnet mask-->right click-->default gateway-->192.168.10.3
+   PC2-->IP-->10.10.10.1-->subnet mask-->right click-->default gateway-->10.10.10.3
+   PC3-->IP-->10.10.10.2-->subnet mask-->right click-->default gateway-->10.10.10.3
+
+   switch0 and switch1-->Do Not Touch
+   
+   Router0-->config-->interface 0/0-->port status(ON)-->IP-->192.168.10.3-->subnet mask-->right click-->interface 0/1-->port status(ON)-->IP-->10.10.10.3-->subnet mask-->right click
+
+   stimulation mode-->packet-->PC0-->packet-->PC1-->auto capture
+
+2) PC0-->IP-->192.168.1.1
+   PC1-->IP-->192.168.1.2
+   PC2-->IP-->192.168.1.3
+   SERVER-->IP-->192.168.1.4
+   INSPECT-->PC0-->ARP TABLE-->SIMULATION MODE-->PACK-->PCO TO PC1-->AUTO CAPTURE
+
+3) SERVER-->CONFIG-->DHCP-->DEFAULT GATEWAY-->10.0.0.1-->START IP ADDRESS-->10.0.0.2-->SUBNET MASK-->RIGHT CLICK-->255.0.0.0-->USERS[50]-->SAVE
+   SERVER-->DESKTOP-->IP-->10.0.0.1
+   PC0-->DESKTOP-->IP-->DHCP-->DHCP REQUEST SUCCESSFULL-->DO FOR LAPTOP0,PC1,LAPTOP1
+   STIMULATION-->PACK-->PC0 TO LAPTOP0-->AUTOCAPTURE
+
+4) PC0-->IP-->192.168.2.7
+   PC1-->IP-->192.168.2.9
+   PC2-->IP-->192.168.2.3
+   PC3-->IP-->192.168.3.7
+
+   ROUTER0-->CONFIG-->INTERFACE 0/0-->PORT STATUS(ON)-->IP-->192.168.2.3-->INTERFACE 0/1-->PORT STATUS(ON)-->192.168.1.2
+   ROUTER1-->CONFIG-->INTERFACE 0/0-->PORT STATUS(ON)-->IP-->192.168.3.3-->INTERFACE 0/1-->PORT STATUS(ON)-->192.168.1.4
+   
+   STIMULATION MODE-->PACK-->PC0 TO PC1-->AUTO CAPTURE
+
+1)Step 1: Configure LAN 1 and LAN2 each connected to a switch
+  Step 2: Check for successful packet movement with in the LANs. 
+Step 3: Connect each LAN to a common router and configure with default gateway of each 
+LAN. 
+Step 4:  Check for successful packet movement between the LANs and observe routing table.
+
+2)Step 1: Configure a LAN with 3 nodes and switch connected. 
+Step 2: Observer ARP table of the nodes and switch, it will be empty at this point.  
+Step 3: Run the simulation and send a packet from one node to another. Observer ARP table of 
+sender, receiver and switch
+
+3)Step 1: Configure a LAN with a DHCP server as shown below.
+  Step 2: Configure DHCP server. Go to config services select DHCPdefault 
+gateway(10.0.0.1)start IP addressSubnet mask Save.
+  Step 3: Observer the IP address assigned to each end node by selecting DHCP option. 
+  Step 4: Observer the packet movement between the nodes. 
+
+4)Step 1: Configure the LANs as shown below.
+  Step 2: Set static IP address for each router  
+ Step 3: Observe the packet movement from a node in a LAN1 to another node in LAN2.
+
+5)Step 1: Configure the nodes and routers as show below. 
+  Step 2:  Configure each router with RIP protocol. 
+Go to config Rotuing RIP Add the network address of each network connected to a router. 
+  Step 3: Observe the packet movement from a node in a LAN1 to another node in LAN2
+
+6)Step 1: Configure the nodes and routers as show below.
+  Step 2:  Configure each router with OSPF  protocol using CLI. 
+For each router, configure network connected to it with its wild card mask (is the inverse of 
+subnetmask i.e if subnet mask = 255.0.0.0 wildcard mask = 0.255.255.255). 
+Step 3: Observe the packet movement from a node in a LAN1 to another node in LAN2 
+
+  
