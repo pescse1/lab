@@ -63,7 +63,11 @@ int main()
         printf("Element %d not found in the array\n", TARGET);
 
     return 0;
-}#include <stdio.h>
+}
+
+or
+
+#include <stdio.h>
 #include <omp.h>
 
 #define ARRAY_SIZE 100
