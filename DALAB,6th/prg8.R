@@ -4,8 +4,7 @@ installed.packages("RColorBrewer")
 library(arules)
 library(arulesViz)
 library(RColorBrewer)
-SupMarTra<-read.transactions("E:/
-Snakyy.csv",format="basket",sep=",")
+SupMarTra<-read.transactions("E:/Snakyy.csv",format="basket",sep=",")
 summary(SupMarTra)
 dim(SupMarTra)
 View(SupMarTra)
@@ -28,8 +27,7 @@ library(arules)
 library(arulesViz)
 library(RColorBrewer)
 
-SupMarTra <- read.transactions(
-  "C:Downloads/Snakyy.csv",
+SupMarTra <- read.transactions("C:Downloads/Snakyy.csv",
   format = "basket",
   sep = ","
 )
